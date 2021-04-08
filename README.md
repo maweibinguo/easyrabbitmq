@@ -1,3 +1,8 @@
+
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE)
+
+
 # easyrabbitmq
 对php-amqplib/php-amqplib包的二次封装，为常见功能提供一套开箱即用的生产解决方案
 
