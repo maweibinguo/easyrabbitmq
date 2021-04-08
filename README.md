@@ -1,5 +1,3 @@
-
-[![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
 
 
@@ -23,3 +21,7 @@
 ## 拉取模式
 
 ### 拉取模式下的可靠消费
+
+
+
+[ico-license]: https://img.shields.io/badge/License-MIT-blue
