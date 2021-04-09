@@ -16,7 +16,7 @@
 ## 要求
 * 安装包对PHP版本对要求主要取决于php-amqplib/php-amqplib包本身对要求,这里为了兼顾php5.0的使用者,我们使用了php-amqplib/php-amqplib包V2.9.0的版本。
 具体的要求参照[这里](https://packagist.org/packages/php-amqplib/php-amqplib#v2.9.0)。
-不过笔者推荐使用php7.0, 这个开发包也是在7.0这个版本上面开发完成的！
+不过笔者推荐使用php7.0及其以上版本, 这个开发包也是在7.0这个版本上面开发完成的！
 
 
 ## 安装
@@ -24,7 +24,30 @@
 ## 使用
 在这里我们推荐php脚本+supervisor结合使用，用以保证消费进程的可靠性、增强worker的消费能力！ 如果你还没有听说过supervisor，可以[点击这里](http://www.supervisord.org/introduction.html)了解
 
-### mq配置
+### 基本使用
+这里我们通过一个简单的例子, 了解基本的使用方式
+
+生产者推送:
+```php
+	$config = [
+		"host" => "127.0.0.1",
+		"vhost" => "/",
+		"user"  => "guest",
+		"password" => "guest",
+		"channelPoolNum" => 20
+	];
+```
+
+消费者消费:
+```php
+	$config = [
+		"host" => "127.0.0.1",
+		"vhost" => "/",
+		"user"  => "guest",
+		"password" => "guest",
+		"channelPoolNum" => 20
+	];
+```
 
 ### 推送消息
 
