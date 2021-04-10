@@ -29,24 +29,10 @@
 
 生产者推送:
 ```php
-	$config = [
-		"host" => "127.0.0.1",
-		"vhost" => "/",
-		"user"  => "guest",
-		"password" => "guest",
-		"channelPoolNum" => 20
-	];
 ```
 
 消费者消费:
 ```php
-	$config = [
-		"host" => "127.0.0.1",
-		"vhost" => "/",
-		"user"  => "guest",
-		"password" => "guest",
-		"channelPoolNum" => 20
-	];
 ```
 
 ### 推送消息
