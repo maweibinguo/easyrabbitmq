@@ -15,7 +15,7 @@
         public function testPushToDirect()
         {
             $instance = RabbitMq::getInstance([]);
-            $instance->pushToDirect(time(), "", "ma_test3");
+            $instance->pushToDirect(time(), "maweibin_direct", "ma_test3");
         }
 
     }

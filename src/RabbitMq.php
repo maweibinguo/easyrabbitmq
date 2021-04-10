@@ -10,7 +10,9 @@
 
     use PhpAmqpLib\Channel\AMQPChannel;
     use PhpAmqpLib\Connection\AMQPStreamConnection;
+    use PhpAmqpLib\Exchange\AMQPExchangeType;
     use PhpAmqpLib\Message\AMQPMessage;
+    use PhpAmqpLib\Wire\AMQPTable;
 
     class RabbitMq
     {
@@ -18,6 +20,11 @@
          * @var
          */
         private static $instance;
+
+        /**
+         * @var int
+         */
+        private static $ackNumber = 0;
 
         /**
          * @var array
@@ -115,11 +122,7 @@
                 if (count(self::$channelPoolList) < self::$config['channelMaxNum']) {
                     $channel = self::$connection->channel();
                     $channel->confirm_select();
-                    $channel->set_ack_handler(function ($a) {
-                        var_dump($a);
-                    });
                     $channel->set_nack_handler(function ($a) {
-                        var_dump($a);
                     });
                     return self::$channelPoolList[] = $channel;
                 } else {
@@ -134,8 +137,9 @@
          * @param string $exchange
          * @param string $queue
          * @param int $delaySec
+         * @return bool
          */
-        public function pushToDirect($msg = '', $exchange = '', $queue = '', $delaySec = 0)
+        public function pushToDirect($msg = '', $exchange = '', $routingKey = '', $delaySec = 0)
         {
             /**
              * @var $channel AMQPChannel
@@ -143,15 +147,63 @@
             $channel = $this->getChannel();
             $msgObj = new AMQPMessage();
             $msgObj->setBody($msg);
-            $channel->basic_publish(
-                $msgObj,
-                $exchange,
-                $queue,
-                $mandatory = true,
-                $immediate = false,
-                $ticket = null
-            );
-            $channel->wait_for_pending_acks(10);
+            if (!empty($exchange)) {
+                $channel->exchange_declare(
+                    $exchange,
+                    AMQPExchangeType::DIRECT,
+                    $passive = false,
+                    $durable = true,
+                    $auto_delete = false,
+                    $internal = false,
+                    $nowait = false,
+                    $arguments = array(),
+                    $ticket = null
+                );
+            }
+
+            if ($delaySec > 0) {
+                $delayQueueName = $exchange . "@" . "delay";
+                $channel->queue_declare(
+                    $delayQueueName,
+                    $passive = false,
+                    $durable = true,
+                    $exclusive = false,
+                    $auto_delete = true,
+                    $nowait = false,
+                    $arguments = [
+                        "x-dead-letter-exchange" => $exchange,
+                        "x-dead-letter-routing-key" => $routingKey
+                    ],
+                    $ticket = null
+                );
+                $channel->queue_bind($delayQueueName, $exchange, $delayQueueName);
+                $msgObj->set("expiration", $delaySec * 1000);
+                $channel->basic_publish(
+                    $msgObj,
+                    $exchange,
+                    $delayQueueName,
+                    $mandatory = false,
+                    $immediate = false,
+                    $ticket = null
+                );
+            } else {
+                $channel->basic_publish(
+                    $msgObj,
+                    $exchange,
+                    $routingKey,
+                    $mandatory = false,
+                    $immediate = false,
+                    $ticket = null
+                );
+            }
+
+            self::$ackNumber++;
+            if (self::$ackNumber > 100) {
+                $channel->wait_for_pending_acks();
+                self::$ackNumber = 0;
+            }
+
+            return true;
         }
 
         /**
