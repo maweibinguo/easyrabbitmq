@@ -35,13 +35,13 @@
             "user" => "guest",
             "password" => "guest",
             "vhost" => "/",
-            "channelMaxNum" => 10,
+            "channel_max_num" => 10,
+            "connection_timeout" => 3.0,
+            "read_write_timeout" => 130.0,
             "insist" => false,
             "login_method" => 'AMQPLAIN',
             "login_response" => null,
             "locale" => "en_US",
-            "connection_timeout" => 3.0,
-            "read_write_timeout" => 130.0,
             "context" => null,
             "keepalive" => false,
             "heartbeat" => 60,
@@ -122,7 +122,7 @@
                 );
             }
 
-            if (count(self::$channelPoolList) < self::$config['channelMaxNum']) {
+            if (count(self::$channelPoolList) < self::$config['channel_max_num']) {
                 $channel = self::$connection->channel();
                 $channel->confirm_select();
                 $channel->set_nack_handler(function ($a) {
@@ -368,7 +368,7 @@
          * @param int $delaySec
          * @return bool
          */
-        public function pushToTopic($msg = '', $routingKey = '', $exchange = '', $delaySec = 0)
+        public function pushToTopic($msg = '',  $exchange = '', $routingKey = '', $delaySec = 0)
         {
             /**
              * @var $channel AMQPChannel

@@ -15,8 +15,8 @@
         public function testPushToDirect()
         {
             $instance = RabbitMq::getInstance([]);
-            $instance->pushToDirect(time(), "easy_direct_exchange", "direct_test_queue", 30);
-            $instance->pushToDirect(time(), "easy_direct_exchange", "direct_test_queue");
+            $instance->pushToDirect(time(), "easy_direct_exchange", "direct_test_queue", 31536000000);
+            //$instance->pushToDirect(time(), "easy_direct_exchange", "direct_test_queue");
             $this->assertTrue(true);
         }
 
