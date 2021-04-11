@@ -19,7 +19,7 @@
 
 ## 安装
 ```php
-
+	composer require maweibinguo/easyrabbitmq
 ```
 
 ## 使用
@@ -43,7 +43,7 @@
 	$instance->pushToDirect(
 				$msg = time(), //消息体内容
 				$exchange = "easy_direct_exchange", //交换机名称
-				$routingKey = "direct_test_queue", //消息的routingkey，consume方法到bingdingkey 要和routingkey保持一致
+				$routingKey = "direct_test_queue", //消息的routingKey，consume(get) 方法到bingdingKey 要和routingKey保持一致
 				$delaySec = 30 //延迟秒数
 	);
 
@@ -51,7 +51,7 @@
 	$instance->pushToDirect(
 				$msg = time(), //消息体内容
 				$exchange = "easy_direct_exchange", //交换机名称
-				$routingKey = "direct_test_queue", //消息的routingkey，consume方法到bingdingkey 要和routingkey保持一致
+				$routingKey = "direct_test_queue", //消息的routingKey，consume(get) 方法到bingdingKey 要和routingKey保持一致
 	);
 ```
   
@@ -97,7 +97,12 @@
 	$instance->pushToTopic(
 				$msg = time(), //消息体内容
 				$exchange = "easy_topic_exchange", //交换机名称
-				$routingKey = "",
+				/**
+				 * routingKey 要同consum(get)方法的bindingKey相匹配
+				 * bindingKey支持两种特殊的字符"*"、“#”，用作模糊匹配, 其中"*"用于匹配一个单词、“#”用于匹配多个单词(也可以是0个)
+				 * 无论是bindingKey还是routingKey, 被"."分隔开的每一段独立的字符串就是一个单词, easy.topic.queue, 包含三个单词easy、topic、queue
+				 */
+				$routingKey = "easy.topic.queue",
 				$delaySec = 30 //延迟秒数
 	);
 
@@ -105,9 +110,7 @@
 	$instance->pushToTopic(
 				$msg = time(), //消息体内容
 				$exchange = "easy_topic_exchange", //交换机名称
-				$routingKey = "easy.topic.queue" //routingKey 要同consum的bindingKey相匹配
-								 //bindingKey支持两种特殊的字符"*"、“#”，用作模糊匹配, 其中"*"用于匹配一个单词、“#”用于匹配多个单词(也可以是0个)
-								 //无论是bindingKey 还是routingKey, 被"."分隔开的每一段独立的字符串就是一个单词, easy.topic.queue, 包含三个单词easy、topic、queue
+				$routingKey = "easy.topic.queue" 	
 	);
 ```
   
