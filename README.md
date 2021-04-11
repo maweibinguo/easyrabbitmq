@@ -1,5 +1,7 @@
 [![Software License][ico-license]](LICENSE)
+[![Package Version][package-version]](VERSION)
 
+在项目中rabbitmq得到了广泛的时候，这里对rabbitmq的常规功能做了一个简单的总结，并封装成了composer包，[composer包地址](https://packagist.org/packages/maweibinguo/easyrabbitmq)、[github地址](https://github.com/maweibinguo/easyrabbitmq)，欢迎fork，由于水平有限，难免存在bug，欢迎提出宝贵意见
 
 ## easy-rabbitmq 包简介 ##
 对php-amqplib/php-amqplib包的二次封装，为常见功能提供一套开箱即用的生产解决方案
@@ -176,3 +178,5 @@
 ```
 
 [ico-license]: https://img.shields.io/badge/License-MIT-blue
+[package-version]: https://img.shields.io/badge/version-V1.0-green
+
