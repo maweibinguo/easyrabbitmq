@@ -108,6 +108,7 @@
 				$exchange = "easy_topic_exchange", //交换机名称
 				$routingKey = ""
 	);
+```
   
 ### 消费消息
 
