@@ -1,4 +1,6 @@
 [![Software License][ico-license]](LICENSE)
+[![Package Version][package-version]](VERSION)
+
 
 
 ## easy-rabbitmq 包简介 ##
@@ -173,3 +175,5 @@
 ```
 
 [ico-license]: https://img.shields.io/badge/License-MIT-blue
+[package-version]: https://img.shields.io/badge/version-V1.0-green
+
