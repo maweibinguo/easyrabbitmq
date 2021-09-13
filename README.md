@@ -177,6 +177,9 @@
     	);
 ```
 
+#### 3、意见反馈
+如果你对这个组件有什么建议或者想法，欢迎到https://segmentfault.com/a/1190000039806384，提交评论进行反馈
+
 [ico-license]: https://img.shields.io/badge/License-MIT-blue
 [package-version]: https://img.shields.io/badge/version-V1.0-green
 
